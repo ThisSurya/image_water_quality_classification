@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+*.h5
+.env
+.git
