@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy seluruh aplikasi
 COPY . .
 
-EXPOSE 80
+EXPOSE 1000
 
 # Jalankan Uvicorn via python -m untuk menghindari "executable not found"
-CMD ["fastapi", "run", "/app/main.py", "--port", "80"]
+CMD ["fastapi", "run", "/app/main.py", "--port", "1000"]
