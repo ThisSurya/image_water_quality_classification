@@ -6,7 +6,6 @@ import numpy as np
 import io
 from typing import Union
 from PIL import Image
-MODEL_PATH = "models/mobilenet.h5"
 IMAGE_TARGET_SIZE = (160, 160)
 class ImageClassifier:
     def __init__(self, model_path: str, class_names: List[str]):
@@ -43,6 +42,7 @@ class ImageClassifier:
         
         Output: batch numpy array shape (1,160,160,3), siap untuk model.predict()
         """
+        
         # 1. Buka dan konversi ke RGB
         image = Image.open(io.BytesIO(image_bytes))
         if image.mode != "RGB":
@@ -52,12 +52,12 @@ class ImageClassifier:
         # 3. Ubah jadi array
         img_array = tf.keras.preprocessing.image.img_to_array(image)
         
-        if model_type.lower() == "mobilenet":
-            # MobileNetV2 butuh preprocessing khusus
-            img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
-        else:
-            # CNN sederhana hanya butuh skala 0-1
-            img_array = img_array / 255.0
+        # if model_type.lower() == "mobilenet":
+        #     # MobileNetV2 butuh preprocessing khusus
+        #     img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
+        # else:
+        #     # CNN sederhana hanya butuh skala 0-1
+        #     img_array = img_array / 255.0
         
         # 4. Batasi ke batch dim
         img_array = np.expand_dims(img_array, axis=0)

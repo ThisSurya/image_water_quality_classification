@@ -18,7 +18,7 @@ app.add_middleware(
 # Variabel global untuk menampung objek classifier kita
 # Type hint 'ImageClassifier' membantu editor kode untuk auto-completion
 classifier: ImageClassifier = None
-MODEL_PATH = "model/cnn.h5"
+MODEL_PATH = "model/mobilenet.keras"
 CLASS_NAMES = ["Bersih", "Kotor", "Keruh"]  # Sesuaikan dengan kelas yang Anda miliki
 @app.on_event("startup")
 async def startup_event():
@@ -47,6 +47,7 @@ async def predict_image_endpoint(file: UploadFile = File(...)):
 
     try:
         image_bytes = await file.read()
+        # image_preprocessed = classifier.preprocess_image(image_bytes, target_size=(160, 160), model_type="mobilenet")
         
         # Cukup panggil metode predict dari objek classifier
         result = classifier.predict(image_bytes)
