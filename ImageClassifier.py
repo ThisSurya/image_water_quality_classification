@@ -7,7 +7,7 @@ import io
 from typing import Union
 from PIL import Image
 MODEL_PATH = "models/mobilenet.h5"
-IMAGE_TARGET_SIZE = (224, 224)
+IMAGE_TARGET_SIZE = (160, 160)
 class ImageClassifier:
     def __init__(self, model_path: str, class_names: List[str]):
         """
@@ -33,22 +33,35 @@ class ImageClassifier:
             return None
 
     @staticmethod
-    def preprocess_image(image_bytes: bytes, target_size: tuple) -> np.ndarray:
+    def preprocess_image(image_bytes: bytes,
+                        target_size: tuple = (160, 160),
+                        model_type: str = "cnn") -> np.ndarray:
         """
-        Metode statis untuk melakukan preprocessing pada gambar.
-        Tidak memerlukan 'self' karena logikanya independen.
+        image_bytes: isi file gambar dalam bentuk bytes
+        target_size: ukuran input (160,160) seperti di training
+        model_type: "cnn" atau "mobilenet"
         
-        PENTING: Sesuaikan langkah-langkah ini agar SAMA PERSIS dengan 
-        preprocessing saat training model Anda.
+        Output: batch numpy array shape (1,160,160,3), siap untuk model.predict()
         """
+        # 1. Buka dan konversi ke RGB
         image = Image.open(io.BytesIO(image_bytes))
         if image.mode != "RGB":
             image = image.convert("RGB")
+        # 2. Resize
         image = image.resize(target_size)
-        image_array = tf.keras.preprocessing.image.img_to_array(image)
-        image_array = image_array / 255.0  # Normalisasi
-        image_array = np.expand_dims(image_array, axis=0)
-        return image_array
+        # 3. Ubah jadi array
+        img_array = tf.keras.preprocessing.image.img_to_array(image)
+        
+        if model_type.lower() == "mobilenet":
+            # MobileNetV2 butuh preprocessing khusus
+            img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
+        else:
+            # CNN sederhana hanya butuh skala 0-1
+            img_array = img_array / 255.0
+        
+        # 4. Batasi ke batch dim
+        img_array = np.expand_dims(img_array, axis=0)
+        return img_array
 
     def predict(self, image_bytes: bytes) -> Dict[str, Union[str, float]]:
         """
@@ -69,6 +82,9 @@ class ImageClassifier:
         predicted_class_name = self.class_names[predicted_class_index]
         
         return {
-            "predicted_class": raw_prediction.tolist(),
+            "predicted_class": predicted_class_index.tolist(),
             "confidence_score": score
         }
+    
+
+
