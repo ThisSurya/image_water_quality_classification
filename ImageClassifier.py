@@ -80,7 +80,7 @@ class ImageClassifier:
         score = float(np.max(raw_prediction))
         predicted_class_index = np.argmax(raw_prediction)
         predicted_class_name = self.class_names[predicted_class_index]
-        
+        print(predicted_class_index)
         return {
             "predicted_class": predicted_class_index.tolist(),
             "confidence_score": score
