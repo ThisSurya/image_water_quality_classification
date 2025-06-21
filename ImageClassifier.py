@@ -52,13 +52,6 @@ class ImageClassifier:
         # 3. Ubah jadi array
         img_array = tf.keras.preprocessing.image.img_to_array(image)
         
-        # if model_type.lower() == "mobilenet":
-        #     # MobileNetV2 butuh preprocessing khusus
-        #     img_array = tf.keras.applications.mobilenet_v2.preprocess_input(img_array)
-        # else:
-        #     # CNN sederhana hanya butuh skala 0-1
-        #     img_array = img_array / 255.0
-        
         # 4. Batasi ke batch dim
         img_array = np.expand_dims(img_array, axis=0)
         return img_array
