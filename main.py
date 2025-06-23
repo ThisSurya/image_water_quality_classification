@@ -19,7 +19,7 @@ app.add_middleware(
 # Type hint 'ImageClassifier' membantu editor kode untuk auto-completion
 classifier: ImageClassifier = None
 MODEL_PATH = "model/mobilenet.keras"
-CLASS_NAMES = ["Lainnya", "Kotor", "Bersih"]  # Sesuaikan dengan kelas yang Anda miliki
+CLASS_NAMES = ["Bersih", "Keruh", "Kotor", "Lainnya"]  # Sesuaikan dengan kelas yang Anda miliki
 @app.on_event("startup")
 async def startup_event():
     """
