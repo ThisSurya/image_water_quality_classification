@@ -47,6 +47,9 @@ async def predict_image_endpoint(file: UploadFile = File(...)):
 
     try:
         image_bytes = await file.read()
+        # validasi ukuran file gambar tidak lebih dari 500kb
+        if len(image_bytes) > 500 * 1024:  # 500 KB
+            return JSONResponse(status_code=400, content={"error": "Ukuran file gambar terlalu besar. Maksimal 500 KB."})
         # image_preprocessed = classifier.preprocess_image(image_bytes, target_size=(160, 160), model_type="mobilenet")
         
         # Cukup panggil metode predict dari objek classifier
