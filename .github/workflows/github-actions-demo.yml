@@ -31,6 +31,7 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
+          port: ${{ secrets.VPS_PORT }}
           key: ${{ secrets.VPS_SSH_KEY }}
           source: "fastapi-app.tar"
           target: "/home/${{ secrets.VPS_USER }}/fastapi-app.tar"
@@ -42,6 +43,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
           script: |
             docker load -i fastapi-app.tar
             docker stop fastapi-app || true
