@@ -32,7 +32,7 @@ async def startup_event():
 
 @app.get("/", tags=["General"])
 def read_root():
-    return {"message": "Selamat datang di API Prediksi Gambar v2.0 (Struktur Kelas)!"}
+    return {"message": "Selamat datang di API Prediksi Gambar v2.0 (Struktur Kelas)!!"}
 
 @app.post("/predict", tags=["Prediction"])
 async def predict_image_endpoint(file: UploadFile = File(...)):
