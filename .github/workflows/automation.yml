@@ -47,7 +47,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            sudo docker pull ${{ env.IMAGE_NAME }}:latest
-            sudo docker stop water_quality || true
-            sudo docker rm water_quality || true
-            sudo docker run -d --name water_quality -p 1010:1000 ${{ env.IMAGE_NAME }}:latest
+            docker pull ${{ env.IMAGE_NAME }}:latest
+            docker stop water_quality || true
+            docker rm water_quality || true
+            docker run -d --name water_quality -p 1010:1000 ${{ env.IMAGE_NAME }}:latest
